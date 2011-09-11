@@ -15,7 +15,7 @@ Demos
 ========
 - Demo `Video`_
 
-.. _`Video`: http://www.vimeo.com/28889452
+.. _`Video`: http://www.vimeo.com/28891014
 
 Requirements
 ========
