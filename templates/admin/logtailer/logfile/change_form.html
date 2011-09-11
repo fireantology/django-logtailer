@@ -1,0 +1,8 @@
+{% extends "admin/change_form.html" %}
+{% load adminmedia %}
+{% block object-tools %}
+	{{super}}
+	{% if object_id %}
+		{% include "logtailer/log_reader.html" with logfile_id=object_id %}
+	{% endif %}
+{% endblock %}

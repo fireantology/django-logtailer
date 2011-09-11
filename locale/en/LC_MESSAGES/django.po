@@ -1,0 +1,98 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) Mauro Rocco
+# This file is distributed under the same license as the Logtailer package.
+# Mauro Rocco <mauro.rocco@toforge.com>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-09-11 12:26+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Mauro Rocco <mauro.rocco@toforge.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:5 models.py:16 models.py:27
+msgid "name"
+msgstr "Name"
+
+#: models.py:6
+msgid "path"
+msgstr "Path"
+
+#: models.py:12 models.py:30
+msgid "log_file"
+msgstr "Log file"
+
+#: models.py:13
+msgid "log_files"
+msgstr "Log files"
+
+#: models.py:17
+msgid "regex"
+msgstr "Regex"
+
+#: models.py:20
+msgid "pattern"
+msgstr "Pattern"
+
+#: models.py:23
+msgid "filter"
+msgstr "Filter"
+
+#: models.py:24
+msgid "filters"
+msgstr "Filters"
+
+#: models.py:28
+msgid "notes"
+msgstr "Notes"
+
+#: models.py:29
+msgid "logs"
+msgstr "Logs"
+
+#: models.py:36 models.py:37
+msgid "logs_clipboard"
+msgstr "Logs clipboard"
+
+#: views.py:23
+msgid "error_logfile_notexist"
+msgstr "ERROR: Log file record does not exist"
+
+#: views.py:47
+msgid "loglines_saved"
+msgstr "Log lines saved"
+
+#: templates/logtailer/log_reader.html:6
+msgid "start_read"
+msgstr "Start read"
+
+#: templates/logtailer/log_reader.html:7
+msgid "stop_read"
+msgstr "Stop read"
+
+#: templates/logtailer/log_reader.html:13
+msgid "apply"
+msgstr "Apply"
+
+#: templates/logtailer/log_reader.html:17
+msgid "auto_scroll"
+msgstr "Auto scroll"
+
+#: templates/logtailer/log_reader.html:18
+msgid "save_selected_rows"
+msgstr "Save selected rows"
+
+#: templates/logtailer/log_reader.html:36
+msgid "save"
+msgstr "Save"
+
+#: templates/logtailer/templatetags/filters.html:6
+msgid "custom"
+msgstr "custom"

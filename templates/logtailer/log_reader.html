@@ -1,0 +1,48 @@
+{% load logtailer_utils %}
+{% load i18n %}
+<form id="logfile_form" action="">
+	<div>
+		<div class="submit-row" style="text-align: left;">
+			<input type="button" id="start-button" value="{% trans "start_read" %}"> 
+			<input type="button" id="stop-button" style="display: none;" value="{% trans "stop_read" %}">
+			&nbsp;&nbsp;&nbsp;
+			|
+			&nbsp;&nbsp;&nbsp;
+			Filter: 
+			{% filters_select %}
+			<input type="text" id="filter" style="display: none;" /> {% trans "apply" %}<input type="checkbox" id="apply-filter" value="1"> 
+			&nbsp;&nbsp;&nbsp;
+			|
+			&nbsp;&nbsp;&nbsp;
+			 {% trans "auto_scroll" %}: <input type="button" id="auto-scroll" style="color: green;" value="ON">
+			 <a id="save-logs" href="#"><input style="float: right;" type="button" id="save-rows" value="{% trans "save_selected_rows" %}"></a>
+		</div>
+		<div style="text-align: center; width: 100%; margin-bottom: 5px;">
+		    <div id="log-window" rows=40 style="width: 98%; text-align: left;
+		     background-color: #000; color: #ccc; font-size: 14px; height: 500px; overflow: auto; padding: 10px;
+		     line-height: 18px; margin: 0 auto;"></div>
+		</div>
+	</div>
+</form>
+<div style="display: none;">
+	<div style="padding: 10px; text-align: center;" id="clipboard-form-container">
+		<form id="clipboard-form" style="margin: 0 auto; width: 400px; text-align: left;" action="">
+			<h1>Save logs</h1>
+			<p><input type="text" size="40" name="clipboard-name" value="Name" id="clipboard-name"></p>
+			<p><textarea name="clipboard-notes" id="clipboard-notes" cols="40" rows="5">{% trans notes %}</textarea></p>
+			<p>
+				<input  type="hidden" id="clipboard-file" name = "clipboard-file" value="{{logfile_id}}"/>
+				<input  type="hidden" id="clipboard-logs" name = "clipboard-logs" />
+				<input  type="submit" id="clipboard-save" value="{% trans "save" %}" />
+			</p>
+			<p><span id="clipboard-error" style="color: red;"></span></p>
+		</form>
+	</div>
+</div>
+<script type="text/javascript" src="{{MEDIA_URL}}logtailer/js/utils.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}logtailer/js/logtailer.js"></script>
+<script type="text/javascript">
+	LogTailer.file_id = {{logfile_id}};
+	var clipboard_url = "{% url logtailer_save_to_clipboard %}"
+</script>
+<script type="text/javascript" src="{{MEDIA_URL}}logtailer/js/init.js"></script>

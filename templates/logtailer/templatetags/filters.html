@@ -1,0 +1,7 @@
+{% load i18n %}
+<select name="filters" id="filter-select">
+	{%for f in filters%}
+		<option value="{{f.regex}}">{{f.name}} | {{f.regex}}</option>
+	{%endfor%}
+	<option value="custom">{% trans "custom" %}</option>
+</select>
