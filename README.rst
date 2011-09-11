@@ -12,18 +12,19 @@ This is a first beta version, don't expect so much.
 
 Demos
 ========
+- Demo Video `DemoVideo`_
 
-.. _`Demo video`: http://www.vimeo.com/28889452
+.. _`DemoVideo`: http://www.vimeo.com/28889452
 
 Requirements
 ========
 
-Django 1.3
-A working cache backend (used for store file cursor position)
+- Django 1.3
+- A working cache backend (used for store file cursor position)
 
 Installation
 ========
 
 - Copy the logtailer folder in you project and add it to the INSTALLED_APPS
 - Run manage.py syncdb for create the required tables                                                                                                                          
-- Create a symbolic link named 'logtailer' in you media root folder that link to the logtailer media folder, alternatively you can also copy the logtailer media folder in your media root
+- Create a symbolic link named 'logtailer' in you media root folder that litailer' in you media root folder that link to the logtailer media folder, alternatively you can also copy the logtailer media folder in your media root
