@@ -10,11 +10,14 @@ class LogFileAdmin(admin.ModelAdmin):
         css = {
             'all': (settings.MEDIA_URL+'logtailer/css/colorbox.css',)
         }
+        
+class FilterAdmin(admin.ModelAdmin):
+    list_display = ('name', 'regex')   
 
 class LogsClipboardAdmin(admin.ModelAdmin):
     list_display = ('name', 'notes', 'log_file')
     readonly_fields = ('name', 'notes', 'logs', 'log_file')
     
 admin.site.register(LogFile, LogFileAdmin)
-admin.site.register(Filter)
+admin.site.register(Filter, FilterAdmin)
 admin.site.register(LogsClipboard, LogsClipboardAdmin)
