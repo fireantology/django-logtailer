@@ -12,7 +12,7 @@ var LogTailer = {
 LogTailer.getLines = function (){
 	LogTailer.currentScrollPosition = django.jQuery("#log-window").scrollTop();
 	django.jQuery.ajax({
-	  url: "../../get-log-line/"+LogTailer.file_id,
+	  url: LOGTAILER_URL_GETLOGLINE,
 	  success: function(result){
 	  				LogTailer.printLines(result);
 	  		   },

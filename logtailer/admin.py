@@ -6,9 +6,9 @@ class LogFileAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'path')
     
     class Media:
-        js = (settings.MEDIA_URL+'logtailer/js/jquery.colorbox-min.js',)
+        js = (settings.STATIC_URL+'logtailer/js/jquery.colorbox-min.js',)
         css = {
-            'all': (settings.MEDIA_URL+'logtailer/css/colorbox.css',)
+            'all': (settings.STATIC_URL+'logtailer/css/colorbox.css',)
         }
         
 class FilterAdmin(admin.ModelAdmin):
