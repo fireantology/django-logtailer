@@ -1,10 +1,9 @@
 from django.conf.urls.defaults import patterns
 from django.conf.urls.defaults import url
 
-urlpatterns = patterns('',
-    url(r'^readlogs/$', 'logtailer.views.read_logs'),
-    url(r'^get-log-line/(?P<file_id>\d+)/$', 'logtailer.views.get_log_line'),
-    url(r'^save-to-clipboard/$',
-         'logtailer.views.save_to_cliboard',
-         name = "logtailer_save_to_clipboard"),
+urlpatterns = patterns('logtailer.views',
+    url(r'^readlogs/$', 'read_logs'),
+    url(r'^get-log-line/(?P<file_id>\d+)/$', 'get_log_lines', name='logtailer_get_log_lines'),
+    url(r'^get-history/(?P<file_id>\d+)/$', 'get_log_lines', {'history': True}, name='logtailer_get_history'),
+    url(r'^save-to-clipboard/$', 'save_to_cliboard', name="logtailer_save_to_clipboard"),
 )
