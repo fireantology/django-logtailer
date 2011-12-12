@@ -24,7 +24,7 @@ def get_log_line(request,file_id):
                             mimetype = 'text/html')
     
     file = open(file_record.path, 'r')
-    file_position = cache.get('file_position_%s' % file_id);
+    file_position = request.session.get('file_position_%s' % file_id)
     file.seek(0, os.SEEK_END)
     if file_position and file_position<=file.tell():
         file.seek(file_position)
@@ -32,8 +32,8 @@ def get_log_line(request,file_id):
     content = []
     for line in file:
         content.append('%s' % line.replace('\n','<br/>'))
-    
-    cache.set('file_position_%s' % file_id, file.tell(), 60*10)
+
+    request.session['file_position_%s' % file_id] = file.tell()
     file.close()
     return HttpResponse(json.dumps(content), mimetype = 'application/json')
 

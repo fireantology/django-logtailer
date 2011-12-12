@@ -21,7 +21,7 @@ Requirements
 ========
 
 - Django 1.3
-- A working cache backend (used for store file cursor position)
+- Sessions enabled
 
 Installation
 ========
