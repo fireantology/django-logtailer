@@ -6,7 +6,7 @@ var LogTailer = {
 	timeout_id: null,
 	timeout: 2000,
 	scroll: true,
-	file_id: 0,
+	file_id: 0
 }
 
 LogTailer.getLines = function (){
@@ -16,7 +16,20 @@ LogTailer.getLines = function (){
 	  success: function(result){
 	  				LogTailer.printLines(result);
 	  		   },
-	  dataType: "json",
+	  dataType: "json"
+	});
+
+}
+
+LogTailer.getHistory = function ( callback ){
+	LogTailer.currentScrollPosition = django.jQuery("#log-window").scrollTop();
+	django.jQuery.ajax({
+	  url: LOGTAILER_URL_GETHISTORY,
+	  success: function(result){
+	  				LogTailer.printLines(result);
+                    callback && callback();
+	  		   },
+	  dataType: "json"
 	});
 
 }
@@ -47,7 +60,7 @@ LogTailer.printLines = function(result){
 			}
 		}
 	}
-	if(LogTailer.scroll){
+	if(LogTailer.scroll && result.length){
 		django.jQuery("#log-window").scrollTop(django.jQuery("#log-window")[0].scrollHeight - django.jQuery("#log-window").height());
 	}
 	else{
@@ -57,7 +70,13 @@ LogTailer.printLines = function(result){
 }
 
 LogTailer.startReading = function (){
-	LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
+    if ( $('#log-window').is(":empty") ) {
+        LogTailer.getHistory( function(){
+            LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
+        });
+    } else {
+        LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
+    }
 	django.jQuery("#start-button").hide();
 	django.jQuery("#stop-button").show();
 }

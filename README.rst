@@ -30,3 +30,9 @@ Installation
 - add to urls.py: url(r'^logs/', include('logtailer.urls')),
 - Run manage.py syncdb for create the required tables
 - Run manage.py collectstatic
+
+OPTIONAL
+========
+
+# preload last n lines when tailing a file
+LOGTAILER_HISTORY_LINES = 100

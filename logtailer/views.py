@@ -4,34 +4,67 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from logtailer.models import LogsClipboard, LogFile
-from django.core.cache import cache
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.admin.views.decorators import staff_member_required
 
+from django.conf import settings
+
+HISTORY_LINES = getattr(settings, 'LOGTAILER_HISTORY_LINES', 0)
 
 def read_logs(request):
     context = {}
     return render_to_response('logtailer/readlogs.html',
                               context, 
                               RequestContext(request, {}),)
-    
-def get_log_line(request,file_id):
+
+
+def get_history(f, lines=HISTORY_LINES):
+    BUFSIZ = 1024
+    f.seek(0, os.SEEK_END)
+    bytes = f.tell()
+    size = lines
+    block = -1
+    data = []
+    while size > 0 and bytes > 0:
+        if (bytes - BUFSIZ > 0):
+            # Seek back one whole BUFSIZ
+            f.seek(block*BUFSIZ, 2)
+            # read BUFFER
+            data.append(f.read(BUFSIZ))
+        else:
+            # file too small, start from beginning
+            f.seek(0,0)
+            # only read what was not read
+            data.append(f.read(bytes))
+        linesFound = data[-1].count('\n')
+        size -= linesFound
+        bytes -= BUFSIZ
+        block -= 1
+    return f
+    return ''.join(data).splitlines(True)[-lines:]
+
+@staff_member_required
+def get_log_lines(request,file_id, history=False):
     try:
         file_record = LogFile.objects.get(id=file_id)
     except LogFile.DoesNotExist:
         return HttpResponse(json.dumps([_('error_logfile_notexist')]),
                             mimetype = 'text/html')
-    
-    file = open(file_record.path, 'r')
-    file_position = request.session.get('file_position_%s' % file_id)
-    file.seek(0, os.SEEK_END)
-    if file_position and file_position<=file.tell():
-        file.seek(file_position)
-    
     content = []
-    for line in file:
-        content.append('%s' % line.replace('\n','<br/>'))
+    file = open(file_record.path, 'r')
+
+    if history:
+        file = get_history(file)
+    else:
+        last_position = request.session.get('file_position_%s' % file_id)
+
+        file.seek(0, os.SEEK_END)
+        if last_position and last_position<=file.tell():
+            file.seek(last_position)
+
+        for line in file:
+            content.append('%s' % line.replace('\n','<br/>'))
 
     request.session['file_position_%s' % file_id] = file.tell()
     file.close()
@@ -50,4 +83,3 @@ def save_to_cliboard(request):
   
     
 staff_member_required(read_logs)
-staff_member_required(get_log_line)
