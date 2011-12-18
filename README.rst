@@ -34,5 +34,4 @@ Installation
 SETTING OPTIONS AVAILABLE
 ========
 
-# preload last n lines when tailing a file
-LOGTAILER_HISTORY_LINES , default value is 0
+ - LOGTAILER_HISTORY_LINES , Number of line to get back from the file on first read, default value is 0
