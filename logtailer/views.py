@@ -41,7 +41,6 @@ def get_history(f, lines=HISTORY_LINES):
         size -= linesFound
         bytes -= BUFSIZ
         block -= 1
-    return f
     return ''.join(data).splitlines(True)[-lines:]
 
 @staff_member_required
@@ -55,7 +54,8 @@ def get_log_lines(request,file_id, history=False):
     file = open(file_record.path, 'r')
 
     if history:
-        file = get_history(file)
+        content = get_history(file)
+        content = [line.replace('\n','<br/>') for line in content]
     else:
         last_position = request.session.get('file_position_%s' % file_id)
 
