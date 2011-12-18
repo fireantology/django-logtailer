@@ -6,7 +6,8 @@ var LogTailer = {
 	timeout_id: null,
 	timeout: 2000,
 	scroll: true,
-	file_id: 0
+	file_id: 0,
+	history_fetched: false
 }
 
 LogTailer.getLines = function (){
@@ -66,15 +67,18 @@ LogTailer.printLines = function(result){
 	else{
 		django.jQuery("#log-window").scrollTop(LogTailer.currentScrollPosition);
 	}
+	window.clearTimeout(LogTailer.timeout_id);
 	LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
 }
 
 LogTailer.startReading = function (){
-    if ( $('#log-window').is(":empty") ) {
+    if (django.jQuery('#log-window').is(":empty") ) {
         LogTailer.getHistory( function(){
+            alert("get history");
             LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
         });
     } else {
+        alert("set getlines timeout");
         LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
     }
 	django.jQuery("#start-button").hide();

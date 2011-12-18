@@ -31,8 +31,8 @@ Installation
 - Run manage.py syncdb for create the required tables
 - Run manage.py collectstatic
 
-OPTIONAL
+SETTING OPTIONS AVAILABLE
 ========
 
 # preload last n lines when tailing a file
-LOGTAILER_HISTORY_LINES = 100
+LOGTAILER_HISTORY_LINES , default value is 0

@@ -4,8 +4,10 @@
 {% block extrahead %}
   {{ block.super }}
   <script type="text/javascript">
-      LOGTAILER_URL_GETLOGLINE = '{% url logtailer_get_log_lines object_id %}';
+    {% if object_id %}
+    LOGTAILER_URL_GETLOGLINE = '{% url logtailer_get_log_lines object_id %}';
     LOGTAILER_URL_GETHISTORY = '{% url logtailer_get_history object_id %}';
+    {% endif %}
   </script>
 {% endblock extrahead %}h
 
