@@ -6,8 +6,7 @@ var LogTailer = {
 	timeout_id: null,
 	timeout: 2000,
 	scroll: true,
-	file_id: 0,
-	history_fetched: false
+	file_id: 0
 }
 
 LogTailer.getLines = function (){
@@ -74,7 +73,6 @@ LogTailer.printLines = function(result){
 LogTailer.startReading = function (){
     if (django.jQuery('#log-window').is(":empty") ) {
         LogTailer.getHistory( function(){
-            alert("get history");
             LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
         });
     } else {
