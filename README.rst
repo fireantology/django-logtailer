@@ -21,11 +21,18 @@ Requirements
 ========
 
 - Django 1.3
-- A working cache backend (used for store file cursor position)
+- Sessions enabled
 
 Installation
 ========
 
 - Copy the logtailer folder in you project and add it to the INSTALLED_APPS
-- Run manage.py syncdb for create the required tables                                                                                                                          
-- Create a symbolic link named 'logtailer' in you media root folder pointing to the logtailer media folder, alternatively you can also copy the logtailer media folder in your media root
+- add to urls.py: url(r'^logs/', include('logtailer.urls')),
+- Run manage.py syncdb for create the required tables
+- Run manage.py collectstatic
+
+OPTIONAL
+========
+
+# preload last n lines when tailing a file
+LOGTAILER_HISTORY_LINES = 100
