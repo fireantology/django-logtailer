@@ -14,7 +14,7 @@ HISTORY_LINES = getattr(settings, 'LOGTAILER_HISTORY_LINES', 0)
 
 def read_logs(request):
     context = {}
-    return render_to_response('logtailer/readlogs.html',
+    return render_to_response('logtailer/log_reader.html',
                               context, 
                               RequestContext(request, {}),)
 
