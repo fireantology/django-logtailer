@@ -43,6 +43,6 @@
 <script type="text/javascript" src="{{STATIC_URL}}logtailer/js/logtailer.js"></script>
 <script type="text/javascript">
 	LogTailer.file_id = {{logfile_id}};
-	var clipboard_url = "{% url logtailer_save_to_clipboard %}"
+	var clipboard_url = "{% url "logtailer_save_to_clipboard" %}"
 </script>
 <script type="text/javascript" src="{{STATIC_URL}}logtailer/js/init.js"></script>

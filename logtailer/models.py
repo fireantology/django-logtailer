@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+
 class LogFile(models.Model):
     name = models.CharField(_('name'), max_length=180)
     path = models.CharField(_('path'), max_length=500)
@@ -9,9 +10,10 @@ class LogFile(models.Model):
         return '%s' % self.name
     
     class Meta:
-        verbose_name = _('log_file')
-        verbose_name_plural = _('log_files')
-        
+        verbose_name = _('Log file')
+        verbose_name_plural = _('Log files')
+
+
 class Filter(models.Model):
     name = models.CharField(_('name'), max_length=180)
     regex = models.CharField(_('regex'), max_length=500)
@@ -22,16 +24,17 @@ class Filter(models.Model):
     class Meta:
         verbose_name = _('filter')
         verbose_name_plural = _('filters')
-        
+
+
 class LogsClipboard(models.Model):
     name = models.CharField(_('name'), max_length=180)
     notes = models.TextField(_('notes'), blank=True, null=True)
     logs = models.TextField(_('logs'))
-    log_file = models.ForeignKey(LogFile, verbose_name=_('log_file'))
+    log_file = models.ForeignKey(LogFile, verbose_name=_('log file'))
     
     def __unicode__(self):
         return "%s" % self.name
     
     class Meta:
-        verbose_name = _('logs_clipboard')
-        verbose_name_plural = _('logs_clipboard')
+        verbose_name = _('logs clipboard')
+        verbose_name_plural = _('logs clipboard')

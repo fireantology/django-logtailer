@@ -12,6 +12,8 @@ from django.conf import settings
 
 HISTORY_LINES = getattr(settings, 'LOGTAILER_HISTORY_LINES', 0)
 
+
+@staff_member_required
 def read_logs(request):
     context = {}
     return render_to_response('logtailer/log_reader.html',
@@ -27,7 +29,7 @@ def get_history(f, lines=HISTORY_LINES):
     block = -1
     data = []
     while size > 0 and bytes > 0:
-        if (bytes - BUFSIZ > 0):
+        if bytes - BUFSIZ > 0:
             # Seek back one whole BUFSIZ
             f.seek(block*BUFSIZ, 2)
             # read BUFFER
@@ -43,13 +45,14 @@ def get_history(f, lines=HISTORY_LINES):
         block -= 1
     return ''.join(data).splitlines(True)[-lines:]
 
+
 @staff_member_required
 def get_log_lines(request,file_id, history=False):
     try:
         file_record = LogFile.objects.get(id=file_id)
     except LogFile.DoesNotExist:
         return HttpResponse(json.dumps([_('error_logfile_notexist')]),
-                            mimetype = 'text/html')
+                            content_type='text/html')
     content = []
     file = open(file_record.path, 'r')
 
@@ -68,7 +71,8 @@ def get_log_lines(request,file_id, history=False):
 
     request.session['file_position_%s' % file_id] = file.tell()
     file.close()
-    return HttpResponse(json.dumps(content), mimetype = 'application/json')
+    return HttpResponse(json.dumps(content), content_type='application/json')
+
 
 @csrf_exempt
 def save_to_cliboard(request):
@@ -78,8 +82,5 @@ def save_to_cliboard(request):
                            log_file = LogFile.objects\
                            .get(id=int(request.POST['file'])))
     object.save()
-    return HttpResponse(_('loglines_saved'), mimetype = 'text/html')
-    
-  
-    
-staff_member_required(read_logs)
+    return HttpResponse(_('loglines_saved'), content_type='text/html')
+

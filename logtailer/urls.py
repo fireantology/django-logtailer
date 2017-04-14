@@ -1,5 +1,4 @@
-from django.conf.urls.defaults import patterns
-from django.conf.urls.defaults import url
+from django.conf.urls import url, patterns
 
 urlpatterns = patterns('logtailer.views',
     url(r'^readlogs/$', 'read_logs'),
