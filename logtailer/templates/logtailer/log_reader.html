@@ -1,4 +1,4 @@
-{% load logtailer_utils %}
+{% load logtailer_utils static %}
 {% load i18n %}
 <form id="logfile_form" action="">
 	<div>
@@ -39,10 +39,10 @@
 		</form>
 	</div>
 </div>
-<script type="text/javascript" src="{{STATIC_URL}}logtailer/js/utils.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}logtailer/js/logtailer.js"></script>
+<script type="text/javascript" src="{% static 'logtailer/js/utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'logtailer/js/logtailer.js' %}"></script>
 <script type="text/javascript">
 	LogTailer.file_id = {{logfile_id}};
 	var clipboard_url = "{% url "logtailer_save_to_clipboard" %}"
 </script>
-<script type="text/javascript" src="{{STATIC_URL}}logtailer/js/init.js"></script>
+<script type="text/javascript" src="{% static 'logtailer/js/init.js' %}"></script>
