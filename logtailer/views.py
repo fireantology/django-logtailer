@@ -81,4 +81,3 @@ def save_to_clipoard(request):
                            log_file = LogFile.objects\
                            .get(id=int(request.POST['file']))).save()
     return HttpResponse(_('loglines_saved'), content_type='text/html')
-
