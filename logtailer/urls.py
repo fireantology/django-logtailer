@@ -13,6 +13,6 @@ urlpatterns = [
         {'history': True},
         name='logtailer_get_history'),
     url(r'^save-to-clipboard/$',
-        views.save_to_cliboard,
+        views.save_to_clipoard,
         name="logtailer_save_to_clipboard"),
 ]

@@ -18,13 +18,14 @@ django.jQuery('#log-window').html("")
 LogTailer.customFilter();
 
 django.jQuery("#save-logs").colorbox({width:"500px",
-									 height:"300px",
+									 height:"370px",
 									 inline:true,
 									 href:"#clipboard-form-container",
+									 closeButton: false,
 									 onOpen: function(){
 									 	django.jQuery("#clipboard-logs").val(getSelectedText());
-									 	django.jQuery("#clipboard-name").val("Name");
-									 	django.jQuery("#clipboard-notes").val("Notes");
+									 	django.jQuery("#clipboard-name").val("");
+									 	django.jQuery("#clipboard-notes").val("");
 									 	django.jQuery("#clipboard-error").html("");
 									 }});
 
@@ -46,13 +47,14 @@ django.jQuery('#clipboard-form').submit(function() {
   	                   	 name: django.jQuery("#clipboard-name").val(),
   	                     notes: django.jQuery("#clipboard-notes").val(),
   	                     logs: django.jQuery("#clipboard-logs").val(),
-  	                     file: django.jQuery("#clipboard-file").val()
+  	                     file: django.jQuery("#clipboard-file").val(),
+                         csrfmiddlewaretoken: django.jQuery("[name=csrfmiddlewaretoken]").val()
   	                   },
   	                   success: function(result){
   	                   	   alert(result);
   	                   	   django.jQuery("#save-logs").colorbox.close();	
   	                   }, 
-  	                   dataType: "text/html"});
+  	                   dataType: "text"});
   }
   
   return false;

@@ -61,7 +61,6 @@ def get_log_lines(request, file_id, history=False):
         content = [line.replace('\n','<br/>') for line in content]
     else:
         last_position = request.session.get('file_position_%s' % file_id)
-        print(last_position)
         file.seek(0, os.SEEK_END)
         if last_position and last_position <= file.tell():
             file.seek(last_position)
@@ -75,13 +74,11 @@ def get_log_lines(request, file_id, history=False):
 
 
 @staff_member_required
-@csrf_exempt
-def save_to_cliboard(request):
-    object = LogsClipboard(name = request.POST['name'],
+def save_to_clipoard(request):
+    LogsClipboard(name = request.POST['name'],
                            notes = request.POST['notes'],
                            logs = request.POST['logs'],
                            log_file = LogFile.objects\
-                           .get(id=int(request.POST['file'])))
-    object.save()
+                           .get(id=int(request.POST['file']))).save()
     return HttpResponse(_('loglines_saved'), content_type='text/html')
 

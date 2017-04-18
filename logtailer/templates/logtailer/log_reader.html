@@ -10,7 +10,7 @@
 			&nbsp;&nbsp;&nbsp;
 			{% trans "filters" %}: &nbsp;
 			{% filters_select %}
-			<input type="text" id="filter" style="display: none;" /> {% trans "apply" %}<input type="checkbox" id="apply-filter" value="1"> 
+			<input type="text" id="filter" style="display: none; border: inherit; background-color: #fff; color: #000; cursor: text; height: 15px;" class="vTextField"  /> {% trans "apply" %}<input type="checkbox" id="apply-filter" value="1">
 			&nbsp;&nbsp;&nbsp;
 			|
 			&nbsp;&nbsp;&nbsp;
@@ -28,9 +28,10 @@
 	<div style="padding: 10px; text-align: center;" id="clipboard-form-container">
 		<form id="clipboard-form" style="margin: 0 auto; width: 400px; text-align: left;" action="">
 			<h1>{% trans "save_logs" %}</h1>
-			<p><input type="text" size="40" name="clipboard-name" value="{% trans "name" %}" id="clipboard-name"></p>
-			<p><textarea name="clipboard-notes" id="clipboard-notes" cols="40" rows="5">{% trans "notes" %}</textarea></p>
+			<p><input type="text" size="40" placeholder="{% trans "name" %}" name="clipboard-name" id="clipboard-name"></p>
+			<p><textarea name="clipboard-notes" placeholder="{% trans "notes" %}" id="clipboard-notes" cols="40" rows="5"></textarea></p>
 			<p>
+                {% csrf_token %}
 				<input  type="hidden" id="clipboard-file" name = "clipboard-file" value="{{logfile_id}}"/>
 				<input  type="hidden" id="clipboard-logs" name = "clipboard-logs" />
 				<input  type="submit" id="clipboard-save" value="{% trans "save" %}" />
