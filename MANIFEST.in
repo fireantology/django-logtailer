@@ -1,0 +1,6 @@
+include AUTHORS
+include LICENSE
+include README.rst
+recursive-include logtailer/templates *
+recursive-include logtailer/static *
+recursive-include logtailer/locale *
