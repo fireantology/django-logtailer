@@ -78,7 +78,6 @@ LogTailer.startReading = function (){
             LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
         });
     } else {
-        alert("set getlines timeout");
         LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
     }
 	django.jQuery("#start-button").hide();
