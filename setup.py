@@ -24,7 +24,7 @@ setup(
     author_email='fireantology@gmail.com',
     packages=find_packages(),
     install_requires=(
-        'Django>=1.8,<=1.11',
+        'Django>=1.8',
     ),
     include_package_data=True,
     zip_safe=False,
