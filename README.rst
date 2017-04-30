@@ -26,7 +26,8 @@ Requirements
 Installation
 ========
 
-- Copy the logtailer folder in you project and add it to the INSTALLED_APPS
+- Install the package with pip install django-logtailer
+- Add it to the INSTALLED_APPS in your SETTINGS
 - add to urls.py: url(r'^logs/', include('logtailer.urls')),
 - Run manage.py migrate for create the required tables
 - Run manage.py collectstatic
