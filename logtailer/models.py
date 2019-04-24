@@ -30,7 +30,7 @@ class LogsClipboard(models.Model):
     name = models.CharField(_('name'), max_length=180)
     notes = models.TextField(_('notes'), blank=True, null=True)
     logs = models.TextField(_('logs'))
-    log_file = models.ForeignKey(LogFile, verbose_name=_('log file'))
+    log_file = models.ForeignKey(LogFile, on_delete=models.CASCADE, verbose_name=_('log file'))
     
     def __unicode__(self):
         return "%s" % self.name
