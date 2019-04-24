@@ -31,7 +31,7 @@ def get_history(f, lines=HISTORY_LINES):
     while size > 0 and bytes > 0:
         if bytes - buffer_size > 0:
             # Seek back one whole buffer_size
-            f.seek(block*buffer_size, 2)
+            f.seek(f.tell()+block*buffer_size, 0)
             # read buffer
             data.append(f.read(buffer_size))
         else:
@@ -41,10 +41,9 @@ def get_history(f, lines=HISTORY_LINES):
             data.append(f.read(bytes))
         linesFound = data[-1].count('\n')
         size -= linesFound
-        bytes -= buffer_size
+        bytes += block*buffer_size
         block -= 1
     return ''.join(data).splitlines(True)[-lines:]
-
 
 @staff_member_required
 def get_log_lines(request, file_id, history=False):
