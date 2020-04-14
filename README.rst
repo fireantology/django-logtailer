@@ -16,14 +16,14 @@ Demos
 .. _`Video`: http://www.vimeo.com/28891014
 
 Requirements
-========
+=============
 
 - Django > 1.8
 - Python 3.x or 2.X
 - Sessions enabled
 
 Installation
-========
+============
 
 - Install the package with pip install django-logtailer
 - Add it to the INSTALLED_APPS in your SETTINGS
@@ -32,6 +32,6 @@ Installation
 - Run manage.py collectstatic
 
 SETTING OPTIONS AVAILABLE
-========
+==========================
 
  - LOGTAILER_HISTORY_LINES , Number of line to get back from the file on first read, default value is 0
