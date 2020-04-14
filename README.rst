@@ -2,9 +2,8 @@
 Django LogTailer
 =================================
 
-:Version: 1.0
+:Version: 1.1
 :Source: http://github.com/fireantology/django-logtailer/
---
 
 
 Allows the viewing of any log file entries in real time directly from the Django admin interface.
