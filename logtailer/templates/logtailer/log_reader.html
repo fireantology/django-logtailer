@@ -2,21 +2,30 @@
 {% load i18n %}
 <form id="logfile_form" action="">
 	<div>
-		<div class="submit-row" style="text-align: left;">
-			<input type="button" id="start-button" value="{% trans "start_read" %}"> 
-			<input type="button" id="stop-button" style="display: none;" value="{% trans "stop_read" %}">
-			&nbsp;&nbsp;&nbsp;
-			|
-			&nbsp;&nbsp;&nbsp;
-			{% trans "filters" %}: &nbsp;
-			{% filters_select %}
-			<input type="text" id="filter" style="display: none; border: inherit; background-color: #fff; color: #000; cursor: text; height: 15px;" class="vTextField"  /> {% trans "apply" %}<input type="checkbox" id="apply-filter" value="1">
-			&nbsp;&nbsp;&nbsp;
-			|
-			&nbsp;&nbsp;&nbsp;
-			 {% trans "auto_scroll" %}: <input type="button" id="auto-scroll" style="color: green;" value="ON">
-			 <a id="save-logs" href="#"><input style="float: right;" type="button" id="save-rows" value="{% trans "save_selected_rows" %}"></a>
-		</div>
+		<fieldset class="module aligned">
+            <div class="form-row">
+                <label>
+                    {% trans "filters" %}:
+                </label>
+			    {% filters_select %}
+                <input type="text" id="filter" class="vTextField hidden"  />
+                <span id="apply-filter-row">
+                    <span id="apply-label">{% trans "apply" %}</span>
+                    <input type="checkbox" id="apply-filter" value="1">
+                </span>
+            </div>
+            <div class="form-row">
+                <label>
+                {% trans "auto_scroll" %}:
+                </label>
+                <input type="button" id="auto-scroll" style="color: green;" value="ON">
+            </div>
+        </fieldset>
+        <div class="submit-row">
+                <input type="button" id="start-button" class="default" value="{% trans "start_read" %}">
+                <input type="button" id="stop-button" class="default"  style="display: none;" value="{% trans "stop_read" %}">
+                <a id="save-logs" href="#"><input type="button" id="save-rows" value="{% trans "save_selected_rows" %}"></a>
+        </div>
 		<div style="text-align: center; width: 100%; margin-bottom: 5px;">
 		    <div id="log-window" rows=40 style="width: 98%; text-align: left;
 		     background-color: #000; color: #ccc; font-size: 14px; height: 500px; overflow: auto; padding: 10px;

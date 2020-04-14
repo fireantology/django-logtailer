@@ -8,7 +8,8 @@ class LogFileAdmin(admin.ModelAdmin):
     class Media:
         js = ('logtailer/js/jquery.colorbox.js',)
         css = {
-            'all': ('logtailer/css/colorbox.css',)
+            'all': ('logtailer/css/colorbox.css',
+                    'logtailer/css/logtailer.css',)
         }
 
 

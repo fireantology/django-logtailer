@@ -1,0 +1,24 @@
+#logfile_form #apply-label {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#logfile_form #apply-filter {
+    margin: 0px;
+}
+
+#logfile_form #start-button {
+    float: left;
+}
+
+#logfile_form #stop-button {
+    float: left;
+}
+
+@media (max-width: 767px){
+#logfile_form #apply-filter-row {
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+}
+
+}
