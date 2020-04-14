@@ -1102,4 +1102,4 @@
 
 	publicMethod.settings = defaults;
 
-}(django.jQuery, document, window));
+}($, document, window));
