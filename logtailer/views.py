@@ -2,7 +2,7 @@ import os
 import json
 from django.http import HttpResponse
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from logtailer.models import LogsClipboard, LogFile
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
@@ -16,9 +16,8 @@ HISTORY_LINES = getattr(settings, 'LOGTAILER_HISTORY_LINES', 0)
 @staff_member_required
 def read_logs(request):
     context = {}
-    return render_to_response('logtailer/log_reader.html',
-                              context, 
-                              RequestContext(request, {}),)
+    return render(request, 'logtailer/log_reader.html',
+                  context, RequestContext(request, {}),)
 
 
 def get_history(f, lines=HISTORY_LINES):
