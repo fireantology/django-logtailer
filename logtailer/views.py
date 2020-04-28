@@ -38,11 +38,12 @@ def get_history(f, lines=HISTORY_LINES):
             f.seek(0,0)
             # only read what was not read
             data.append(f.read(bytes))
-        linesFound = data[-1].count('\n')
-        size -= linesFound
+        lines_found = data[-1].count('\n')
+        size -= lines_found
         bytes += block*buffer_size
         block -= 1
     return ''.join(data).splitlines(True)[-lines:]
+
 
 @staff_member_required
 def get_log_lines(request, file_id, history=False):
@@ -73,9 +74,8 @@ def get_log_lines(request, file_id, history=False):
 
 @staff_member_required
 def save_to_clipoard(request):
-    LogsClipboard(name = request.POST['name'],
-                           notes = request.POST['notes'],
-                           logs = request.POST['logs'],
-                           log_file = LogFile.objects\
-                           .get(id=int(request.POST['file']))).save()
+    LogsClipboard(name=request.POST['name'],
+                  notes=request.POST['notes'],
+                  logs=request.POST['logs'],
+                  log_file=LogFile.objects.get(id=int(request.POST['file']))).save()
     return HttpResponse(_('loglines_saved'), content_type='text/html')
