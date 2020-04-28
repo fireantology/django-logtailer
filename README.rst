@@ -2,7 +2,7 @@
 Django LogTailer
 =================================
 
-:Version: 1.1
+:Version: 1.2
 :Source: http://github.com/fireantology/django-logtailer/
 
 
