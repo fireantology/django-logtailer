@@ -30,8 +30,3 @@ Installation
 - add to urls.py: url(r'^logs/', include('logtailer.urls')),
 - Run manage.py migrate for create the required tables
 - Run manage.py collectstatic
-
-SETTING OPTIONS AVAILABLE
-==========================
-
- - LOGTAILER_HISTORY_LINES , Number of line to get back from the file on first read, default value is 0

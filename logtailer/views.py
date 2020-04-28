@@ -8,10 +8,6 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.admin.views.decorators import staff_member_required
 
-from django.conf import settings
-
-HISTORY_LINES = getattr(settings, 'LOGTAILER_HISTORY_LINES', 0)
-
 
 @staff_member_required
 def read_logs(request):
@@ -20,7 +16,7 @@ def read_logs(request):
                   context, RequestContext(request, {}),)
 
 
-def get_history(f, lines=HISTORY_LINES):
+def get_history(f, lines=0):
     buffer_size = 1024
     f.seek(0, os.SEEK_END)
     bytes = f.tell()
@@ -35,7 +31,7 @@ def get_history(f, lines=HISTORY_LINES):
             data.append(f.read(buffer_size))
         else:
             # file too small, start from beginning
-            f.seek(0,0)
+            f.seek(0, 0)
             # only read what was not read
             data.append(f.read(bytes))
         lines_found = data[-1].count('\n')
@@ -46,7 +42,8 @@ def get_history(f, lines=HISTORY_LINES):
 
 
 @staff_member_required
-def get_log_lines(request, file_id, history=False):
+def get_log_lines(request, file_id):
+    history = int(request.GET.get('history', 0))
     try:
         file_record = LogFile.objects.get(id=file_id)
     except LogFile.DoesNotExist:
@@ -55,8 +52,8 @@ def get_log_lines(request, file_id, history=False):
     content = []
     file = open(file_record.path, 'r')
 
-    if history:
-        content = get_history(file)
+    if history > 0:
+        content = get_history(file, history)
         content = [line.replace('\n','<br/>') for line in content]
     else:
         last_position = request.session.get('file_position_%s' % file_id)

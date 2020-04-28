@@ -4,7 +4,6 @@
   {% if change %}
   <script type="text/javascript">
     LOGTAILER_URL_GETLOGLINE = '{% url "logtailer_get_log_lines" original.pk %}';
-    LOGTAILER_URL_GETHISTORY = '{% url "logtailer_get_history" original.pk %}';
   </script>
   {% endif %}
 {% endblock extrahead %}

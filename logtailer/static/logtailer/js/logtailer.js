@@ -22,10 +22,14 @@ LogTailer.getLines = function (){
 
 }
 
-LogTailer.getHistory = function ( callback ){
+LogTailer.getHistory = function (callback, lines){
 	LogTailer.currentScrollPosition = django.jQuery("#log-window").scrollTop();
 	django.jQuery.ajax({
-	  url: LOGTAILER_URL_GETHISTORY,
+	  url: LOGTAILER_URL_GETLOGLINE,
+	  type: "get",
+	  data: {
+		history: lines,
+	  },
 	  success: function(result){
 	  				LogTailer.printLines(result);
                     callback && callback();
@@ -73,10 +77,16 @@ LogTailer.printLines = function(result){
 
 LogTailer.startReading = function (){
     if (LogTailer.first_read) {
+        var lines = django.jQuery('#history_lines').val();
+        if(!isInt(lines)){
+        	alert("Last lines parameter is not an integer");
+        	return;
+		}
         LogTailer.first_read = false;
+        django.jQuery('#history_lines').prop("disabled", true);
         LogTailer.getHistory( function(){
             LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
-        });
+        }, lines);
     } else {
         LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
     }
