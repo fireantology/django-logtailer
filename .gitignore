@@ -4,3 +4,5 @@
 .idea/
 dist/
 build/
+*.egg
+*.egg-info

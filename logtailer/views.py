@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render
 from logtailer.models import LogsClipboard, LogFile
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.admin.views.decorators import staff_member_required
 
