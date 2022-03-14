@@ -1,4 +1,5 @@
 {% extends "admin/change_form.html" %}
+{% load i18n %}
 {% block extrahead %}
   {{ block.super }}
   {% if change %}
@@ -12,4 +13,10 @@
     {% if change %}{% if not is_popup %}
 		{% include "logtailer/log_reader.html" with logfile_id=original.pk %}
 	{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block object-tools-items %}
+    <li><a href="{% url 'admin:logtailer_logfile_download' original.pk %}">{% trans 'Download Log File' %}</a></li>
+    {{ block.super }}
 {% endblock %}
