@@ -8,7 +8,7 @@
                     {% trans "filters" %}:
                 </label>
 			    {% filters_select %}
-                <input type="text" id="filter" class="vTextField hidden"  />
+                <input type="text" id="filter" class="vTextField"/>
                 <span id="apply-filter-row">
                     <span id="apply-label">{% trans "apply" %}</span>
                     <input type="checkbox" id="apply-filter" value="1">
@@ -24,37 +24,39 @@
                 <label>
                 {% trans "auto_scroll" %}:
                 </label>
-                <input type="button" id="auto-scroll" style="color: green;" value="ON">
+                <input type="button" id="auto-scroll" value="ON">
             </div>
         </fieldset>
         <div class="submit-row">
                 <input type="button" id="start-button" class="default" value="{% trans "start_read" %}">
                 <input type="button" id="stop-button" class="default"  style="display: none;" value="{% trans "stop_read" %}">
-                <a id="save-logs" href="#"><input type="button" id="save-rows" value="{% trans "save_selected_rows" %}"></a>
+                <input type="button" id="save-rows" value="{% trans "save_selected_rows" %}">
         </div>
-		<div style="text-align: center; width: 100%; margin-bottom: 5px;">
-		    <div id="log-window" rows=40 style="width: 98%; text-align: left;
-		     background-color: #000; color: #ccc; font-size: 14px; height: 500px; overflow: auto; padding: 10px;
-		     line-height: 18px; margin: 0 auto;"></div>
+		<div id="log-window-container">
+		    <div id="log-window"></div>
 		</div>
 	</div>
 </form>
-<div style="display: none;">
-	<div style="padding: 10px; text-align: center;" id="clipboard-form-container">
-		<form id="clipboard-form" style="margin: 0 auto; width: 400px; text-align: left;" action="">
-			<h1>{% trans "save_logs" %}</h1>
-			<p><input type="text" size="40" placeholder="{% trans "name" %}" name="clipboard-name" id="clipboard-name"></p>
-			<p><textarea name="clipboard-notes" placeholder="{% trans "notes" %}" id="clipboard-notes" cols="40" rows="5"></textarea></p>
-			<p>
-                {% csrf_token %}
-				<input  type="hidden" id="clipboard-file" name = "clipboard-file" value="{{logfile_id}}"/>
-				<input  type="hidden" id="clipboard-logs" name = "clipboard-logs" />
-				<input  type="submit" id="clipboard-save" value="{% trans "save" %}" />
-			</p>
-			<p><span id="clipboard-error" style="color: red;"></span></p>
-		</form>
-	</div>
-</div>
+
+    <div id="modal-overlay" class="modal-overlay hide">
+        <div class="modal-wrapper">
+            <div id="clipboard-form-container">
+                <form id="clipboard-form" action="">
+                    <h1>{% trans "save_logs" %}</h1>
+                    <p><input type="text" size="40" placeholder="{% trans "name" %}" name="clipboard-name" id="clipboard-name"></p>
+                    <p><textarea name="clipboard-notes" placeholder="{% trans "notes" %}" id="clipboard-notes" cols="40" rows="5"></textarea></p>
+                    <p>
+                        {% csrf_token %}
+                        <input  type="hidden" id="clipboard-file" name = "clipboard-file" value="{{logfile_id}}"/>
+                        <input  type="hidden" id="clipboard-logs" name = "clipboard-logs" />
+                        <input  type="submit" id="clipboard-save" value="{% trans "save" %}" />
+                        <input type="button"  id="close-modal-btn" value="{% trans "close" %}">
+                    </p>
+                    <p><span id="clipboard-error" style="color: red;"></span></p>
+                </form>
+            </div>
+        </div>
+    </div>
 <script type="text/javascript" src="{% static 'logtailer/js/utils.js' %}"></script>
 <script type="text/javascript" src="{% static 'logtailer/js/logtailer.js' %}"></script>
 <script type="text/javascript">

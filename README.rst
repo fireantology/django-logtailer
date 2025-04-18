@@ -18,8 +18,8 @@ Demos
 Requirements
 =============
 
-- Django > 1.8
-- Python 3.x or 2.X
+- Django > 4.0
+- Python 3.x
 - Sessions enabled
 
 Installation

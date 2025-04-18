@@ -1,6 +1,14 @@
 # Change Log
 All enhancements and patches to Django Logtailer will be documented in this file.
 
+## [1.3]
+### Changed
+- Adding download log file link
+- Making compatible with Django 5
+- Remove jquery colorbox
+- Adapt popup for save logs to new django admin dynamic color scheme
+
+
 ## [1.2]
 ### Changed
 - Add form input field to define last lines to read from file

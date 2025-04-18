@@ -9,10 +9,8 @@ class LogFileAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'path')
 
     class Media:
-        js = ('logtailer/js/jquery.colorbox.js',)
         css = {
-            'all': ('logtailer/css/colorbox.css',
-                    'logtailer/css/logtailer.css',)
+            'all': ('logtailer/css/logtailer.css',)
         }
 
     def get_urls(self):

@@ -105,12 +105,10 @@ LogTailer.changeAutoScroll = function(){
 	if(LogTailer.scroll){
       	LogTailer.scroll = false;
       	django.jQuery('#auto-scroll').val("OFF");
-      	django.jQuery('#auto-scroll').css('color', 'red');
     }
     else{
       	LogTailer.scroll = true;
       	django.jQuery('#auto-scroll').val("ON");
-      	django.jQuery('#auto-scroll').css('color', 'green');
     }
 }
 

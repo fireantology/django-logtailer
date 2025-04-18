@@ -14,20 +14,10 @@ django.jQuery('#filter-select').change(function() {
 	LogTailer.customFilter();
 });		
 
+
+
 django.jQuery('#log-window').html("")
 LogTailer.customFilter();
-
-django.jQuery("#save-logs").colorbox({width:"500px",
-									 height:"370px",
-									 inline:true,
-									 href:"#clipboard-form-container",
-									 closeButton: false,
-									 onOpen: function(){
-									 	django.jQuery("#clipboard-logs").val(getSelectedText());
-									 	django.jQuery("#clipboard-name").val("");
-									 	django.jQuery("#clipboard-notes").val("");
-									 	django.jQuery("#clipboard-error").html("");
-									 }});
 
 django.jQuery('#clipboard-form').submit(function() {
   var error = false;
@@ -52,10 +42,33 @@ django.jQuery('#clipboard-form').submit(function() {
   	                   },
   	                   success: function(result){
   	                   	   alert(result);
-  	                   	   django.jQuery("#save-logs").colorbox.close();	
+  	                   	   django.jQuery("#modal-overlay").hide();
   	                   }, 
   	                   dataType: "text"});
   }
   
   return false;
 });
+
+const saveRows = document.getElementById("save-rows");
+const modal = document.getElementById("modal-overlay");
+const closeButton = document.getElementById("close-modal-btn");
+
+function openModal() {
+	django.jQuery("#clipboard-logs").val(getSelectedText());
+	django.jQuery("#clipboard-name").val("");
+	django.jQuery("#clipboard-notes").val("");
+	django.jQuery("#clipboard-error").html("");
+    modal.classList.remove("hide");
+}
+
+function closeModal(e, clickedOutside) {
+    if (clickedOutside) {
+        if (e.target.classList.contains("modal-overlay"))
+            modal.classList.add("hide");
+    } else modal.classList.add("hide");
+}
+
+saveRows.addEventListener("click", openModal);
+modal.addEventListener("click", (e) => closeModal(e, true));
+closeButton.addEventListener("click", closeModal);
