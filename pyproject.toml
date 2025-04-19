@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.setuptools.dynamic]
+version = {attr = "logtailer.__version__"}
+
+[project]
+dynamic = ["version"]
+name = "django-logtailer"
+authors = [
+  { name="Mauro", email="fireantology@gmail.com" },
+]
+description = "Allows to read log files from disk with a tail like web console on Django admin interface."
+readme = "README.rst"
+requires-python = ">=3.9"
+dependencies = [
+  'Django >= 5.0',
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "Topic :: Internet :: WWW/HTTP",
+    "Framework :: Django",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 5.0",
+]
+license = "BSD-2-Clause"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/fireantology/django-logtailer"
