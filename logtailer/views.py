@@ -50,7 +50,10 @@ def get_log_lines(request, file_id):
         return HttpResponse(json.dumps([_('error_logfile_notexist')]),
                             content_type='text/html')
     content = []
-    file = open(file_record.path, 'r')
+    try:
+        file = open(file_record.path, 'r')
+    except FileNotFoundError:
+        return HttpResponse(json.dumps([_('error_no_suchfile')]),)
 
     if history > 0:
         content = get_history(file, history)

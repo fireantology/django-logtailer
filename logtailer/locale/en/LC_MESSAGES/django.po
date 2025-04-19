@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-06 10:53+0100\n"
+"POT-Creation-Date: 2025-04-19 20:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mauro Rocco <mauro.rocco@toforge.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,87 +16,119 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:5 models.py:16 models.py:27
-#: templates/logtailer/log_reader.html:31
+#: logtailer/admin.py:36
+msgid "ERROR"
+msgstr ""
+
+#: logtailer/models.py:6 logtailer/models.py:18 logtailer/models.py:30
+#: logtailer/templates/logtailer/log_reader.html:46
 msgid "name"
 msgstr "Name"
 
-#: models.py:6
+#: logtailer/models.py:7
 msgid "path"
 msgstr "Path"
 
-#: models.py:12 models.py:30
-msgid "log_file"
+#: logtailer/models.py:13
+#, fuzzy
+#| msgid "log_file"
+msgid "Log file"
 msgstr "Log file"
 
-#: models.py:13
-msgid "log_files"
+#: logtailer/models.py:14
+#, fuzzy
+#| msgid "log_files"
+msgid "Log files"
 msgstr "Log files"
 
-#: models.py:17
+#: logtailer/models.py:19
 msgid "regex"
 msgstr "Regex"
 
-#: models.py:20
+#: logtailer/models.py:22
 msgid "pattern"
 msgstr "Pattern"
 
-#: models.py:23
+#: logtailer/models.py:25
 msgid "filter"
 msgstr "Filter"
 
-#: models.py:24 templates/logtailer/log_reader.html:11
+#: logtailer/models.py:26 logtailer/templates/logtailer/log_reader.html:8
 msgid "filters"
 msgstr "Filters"
 
-#: models.py:28 templates/logtailer/log_reader.html:32
+#: logtailer/models.py:31 logtailer/templates/logtailer/log_reader.html:47
 msgid "notes"
 msgstr "Notes"
 
-#: models.py:29
+#: logtailer/models.py:32
 msgid "logs"
 msgstr "Logs"
 
-#: models.py:36 models.py:37
-msgid "logs_clipboard"
+#: logtailer/models.py:33
+#, fuzzy
+#| msgid "log_file"
+msgid "log file"
+msgstr "Log file"
+
+#: logtailer/models.py:39 logtailer/models.py:40
+#, fuzzy
+#| msgid "logs_clipboard"
+msgid "logs clipboard"
 msgstr "Logs clipboard"
 
-#: views.py:23
-msgid "error_logfile_notexist"
-msgstr "ERROR: Log file record does not exist"
+#: logtailer/templates/admin/logtailer/logfile/change_form.html:20
+msgid "Download Log File"
+msgstr ""
 
-#: views.py:48
-msgid "loglines_saved"
-msgstr "Log lines saved"
-
-#: templates/logtailer/log_reader.html:6
-msgid "start_read"
-msgstr "Start read"
-
-#: templates/logtailer/log_reader.html:7
-msgid "stop_read"
-msgstr "Stop read"
-
-#: templates/logtailer/log_reader.html:13
+#: logtailer/templates/logtailer/log_reader.html:13
 msgid "apply"
 msgstr "Apply"
 
-#: templates/logtailer/log_reader.html:17
+#: logtailer/templates/logtailer/log_reader.html:19
+msgid "Last lines to read"
+msgstr ""
+
+#: logtailer/templates/logtailer/log_reader.html:25
 msgid "auto_scroll"
 msgstr "Auto scroll"
 
-#: templates/logtailer/log_reader.html:18
+#: logtailer/templates/logtailer/log_reader.html:31
+msgid "start_read"
+msgstr "Start read"
+
+#: logtailer/templates/logtailer/log_reader.html:32
+msgid "stop_read"
+msgstr "Stop read"
+
+#: logtailer/templates/logtailer/log_reader.html:33
 msgid "save_selected_rows"
 msgstr "Save selected rows"
 
-#: templates/logtailer/log_reader.html:30
+#: logtailer/templates/logtailer/log_reader.html:45
 msgid "save_logs"
 msgstr "Save Logs"
 
-#: templates/logtailer/log_reader.html:36
+#: logtailer/templates/logtailer/log_reader.html:52
 msgid "save"
 msgstr "Save"
 
-#: templates/logtailer/templatetags/filters.html:6
+#: logtailer/templates/logtailer/log_reader.html:53
+msgid "close"
+msgstr "Close"
+
+#: logtailer/templates/logtailer/templatetags/filters.html:6
 msgid "custom"
 msgstr "custom"
+
+#: logtailer/views.py:50
+msgid "error_logfile_notexist"
+msgstr "ERROR: Log file record does not exist"
+
+#: logtailer/views.py:56
+msgid "error_no_suchfile"
+msgstr "No such File"
+
+#: logtailer/views.py:81
+msgid "loglines_saved"
+msgstr "Log lines saved"
