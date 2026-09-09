@@ -6,8 +6,8 @@ class LogFile(models.Model):
     name = models.CharField(_('name'), max_length=180)
     path = models.CharField(_('path'), max_length=500)
 
-    def __unicode__(self):
-        return '%s' % self.name
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = _('Log file')
@@ -18,7 +18,7 @@ class Filter(models.Model):
     name = models.CharField(_('name'), max_length=180)
     regex = models.CharField(_('regex'), max_length=500)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s | %s: %s ' % (self.name, _('pattern'), self.regex)
 
     class Meta:
@@ -32,8 +32,8 @@ class LogsClipboard(models.Model):
     logs = models.TextField(_('logs'))
     log_file = models.ForeignKey(LogFile, on_delete=models.CASCADE, verbose_name=_('log file'))
 
-    def __unicode__(self):
-        return "%s" % self.name
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = _('logs clipboard')

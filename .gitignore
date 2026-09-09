@@ -2,6 +2,7 @@
 .project
 .pydevproject
 .idea/
+.cursor/
 dist/
 build/
 *.egg

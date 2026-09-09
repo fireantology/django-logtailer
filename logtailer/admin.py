@@ -6,7 +6,7 @@ from logtailer.models import LogFile, Filter, LogsClipboard
 
 
 class LogFileAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'path')
+    list_display = ('name', 'path')
 
     class Media:
         css = {
