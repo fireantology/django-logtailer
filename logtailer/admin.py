@@ -1,11 +1,28 @@
+from django import forms
 from django.contrib import admin
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import path, reverse
 from logtailer.models import LogFile, Filter, LogsClipboard
+from logtailer.utils import is_path_allowed
+
+
+class LogFileAdminForm(forms.ModelForm):
+    class Meta:
+        model = LogFile
+        fields = '__all__'
+
+    def clean_path(self):
+        file_path = self.cleaned_data['path']
+        if not is_path_allowed(file_path):
+            raise forms.ValidationError(
+                gettext_lazy('error_path_not_allowed'))
+        return file_path
 
 
 class LogFileAdmin(admin.ModelAdmin):
+    form = LogFileAdminForm
     list_display = ('name', 'path')
 
     class Media:
@@ -26,6 +43,8 @@ class LogFileAdmin(admin.ModelAdmin):
     def download(self, request, object_id):
         try:
             log_file = self.get_object(request, object_id)
+            if not is_path_allowed(log_file.path):
+                raise PermissionError(_('error_path_not_allowed'))
             with open(log_file.path, 'r') as f:
                 buffer = f.read()
             response = HttpResponse(buffer, content_type='plain/text')

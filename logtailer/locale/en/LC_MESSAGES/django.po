@@ -129,6 +129,9 @@ msgstr "ERROR: Log file record does not exist"
 msgid "error_no_suchfile"
 msgstr "No such File"
 
+msgid "error_path_not_allowed"
+msgstr "Access to this file path is not allowed"
+
 #: logtailer/views.py:81
 msgid "loglines_saved"
 msgstr "Log lines saved"

@@ -130,6 +130,9 @@ msgstr "Errore: Il file di log non esiste"
 msgid "error_no_suchfile"
 msgstr "File non trovato"
 
+msgid "error_path_not_allowed"
+msgstr "L'accesso a questo percorso non è consentito"
+
 #: logtailer/views.py:81
 msgid "loglines_saved"
 msgstr "Linee del log salvate"

@@ -3,8 +3,8 @@ import json
 from django.http import HttpResponse
 from django.shortcuts import render
 from logtailer.models import LogsClipboard, LogFile
+from logtailer.utils import is_path_allowed
 from django.utils.translation import gettext as _
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.admin.views.decorators import staff_member_required
 
 
@@ -46,6 +46,9 @@ def get_log_lines(request, file_id):
     except LogFile.DoesNotExist:
         return HttpResponse(json.dumps([_('error_logfile_notexist')]),
                             content_type='text/html')
+    if not is_path_allowed(file_record.path):
+        return HttpResponse(json.dumps([_('error_path_not_allowed')]),
+                            content_type='application/json')
     content = []
     try:
         file = open(file_record.path, 'r')

@@ -31,6 +31,17 @@ Installation
 - Run manage.py migrate for create the required tables
 - Run manage.py collectstatic
 
+Settings
+========
+
+``LOGTAILER_ALLOWED_ROOTS`` (optional, strongly recommended): list of
+directories log files are allowed to live in. Paths are fully resolved
+(symlinks and ``..`` included) before checking, preventing path traversal
+(CWE-22). When the setting is not defined, any path readable by the Django
+process is allowed (legacy behaviour)::
+
+    LOGTAILER_ALLOWED_ROOTS = ['/var/log/myapp']
+
 Running tests
 =============
 
