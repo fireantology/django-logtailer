@@ -1,9 +1,11 @@
 import os
 import json
+import re
 from django.http import HttpResponse
 from django.shortcuts import render
 from logtailer.models import LogsClipboard, LogFile
 from logtailer.utils import is_path_allowed
+from django.utils.html import escape
 from django.utils.translation import gettext as _
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -38,9 +40,37 @@ def get_history(f, lines=0):
     return ''.join(data).splitlines(True)[-lines:]
 
 
+def get_line_filter(pattern):
+    """Build a predicate for raw log lines from a regex pattern.
+
+    Returns None when no pattern is given (no filtering). Invalid regexes
+    fall back to a literal substring match.
+    """
+    if not pattern:
+        return None
+    try:
+        regex = re.compile(pattern)
+    except re.error:
+        return lambda line: pattern in line
+    return lambda line: regex.search(line) is not None
+
+
+def format_lines(lines, line_filter):
+    """Filter raw lines, then escape HTML and convert newlines to <br/>.
+
+    Filtering happens on the raw line so regexes match true log content;
+    escaping afterwards prevents log content from being rendered as HTML
+    (stored XSS).
+    """
+    return [str(escape(line)).replace('\n', '<br/>')
+            for line in lines
+            if line_filter is None or line_filter(line)]
+
+
 @staff_member_required
 def get_log_lines(request, file_id):
     history = int(request.GET.get('history', 0))
+    line_filter = get_line_filter(request.GET.get('filter', ''))
     try:
         file_record = LogFile.objects.get(id=file_id)
     except LogFile.DoesNotExist:
@@ -49,23 +79,19 @@ def get_log_lines(request, file_id):
     if not is_path_allowed(file_record.path):
         return HttpResponse(json.dumps([_('error_path_not_allowed')]),
                             content_type='application/json')
-    content = []
     try:
         file = open(file_record.path, 'r')
     except FileNotFoundError:
         return HttpResponse(json.dumps([_('error_no_suchfile')]),)
 
     if history > 0:
-        content = get_history(file, history)
-        content = [line.replace('\n','<br/>') for line in content]
+        content = format_lines(get_history(file, history), line_filter)
     else:
         last_position = request.session.get('file_position_%s' % file_id)
         file.seek(0, os.SEEK_END)
         if last_position and last_position <= file.tell():
             file.seek(last_position)
-
-        for line in file:
-            content.append('%s' % line.replace('\n','<br/>'))
+        content = format_lines(file, line_filter)
 
     request.session['file_position_%s' % file_id] = file.tell()
     file.close()

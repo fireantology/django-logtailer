@@ -10,10 +10,26 @@ var LogTailer = {
 	first_read: true,
 }
 
+LogTailer.getFilterParams = function (){
+	// Filtering is done server-side (Python re.search on the raw line).
+	var params = {};
+	if(django.jQuery("#apply-filter").is(':checked')){
+		var pattern = django.jQuery("#filter").val();
+		if(django.jQuery('#filter-select').val()!="custom"){
+			pattern = django.jQuery('#filter-select').val();
+		}
+		if(pattern){
+			params.filter = pattern;
+		}
+	}
+	return params;
+}
+
 LogTailer.getLines = function (){
 	LogTailer.currentScrollPosition = django.jQuery("#log-window").scrollTop();
 	django.jQuery.ajax({
 	  url: LOGTAILER_URL_GETLOGLINE,
+	  data: LogTailer.getFilterParams(),
 	  success: function(result){
 	  				LogTailer.printLines(result);
 	  		   },
@@ -24,12 +40,12 @@ LogTailer.getLines = function (){
 
 LogTailer.getHistory = function (callback, lines){
 	LogTailer.currentScrollPosition = django.jQuery("#log-window").scrollTop();
+	var data = LogTailer.getFilterParams();
+	data.history = lines;
 	django.jQuery.ajax({
 	  url: LOGTAILER_URL_GETLOGLINE,
 	  type: "get",
-	  data: {
-		history: lines,
-	  },
+	  data: data,
 	  success: function(result){
 	  				LogTailer.printLines(result);
                     callback && callback();
@@ -40,29 +56,9 @@ LogTailer.getHistory = function (callback, lines){
 }
 
 LogTailer.printLines = function(result){
-	if(django.jQuery("#apply-filter").is(':checked')){
-		for(var i=0;i<result.length;i++){
-			pattern = django.jQuery("#filter").val();
-			if(django.jQuery('#filter-select').val()!="custom"){
-				pattern = django.jQuery('#filter-select').val();
-			}
-			try {
-			    regex = eval(pattern);
-			}
-			catch(err) {
-			    regex = pattern;
-			}
-			position = result[i].search(regex);
-			if(position>-1){
-				django.jQuery("#log-window").append(result[i]);
-			}
-		}		
-	}
-	else{
-		for(var i=0;i<result.length;i++){
-			if(result[i].length>0){
-				django.jQuery("#log-window").append(result[i]);
-			}
+	for(var i=0;i<result.length;i++){
+		if(result[i].length>0){
+			django.jQuery("#log-window").append(result[i]);
 		}
 	}
 	if(LogTailer.scroll && result.length){

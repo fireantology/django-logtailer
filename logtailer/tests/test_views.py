@@ -48,6 +48,12 @@ class LogtailerViewTestCase(TestCase):
         self.addCleanup(lambda: os.path.exists(path) and os.remove(path))
         return path, LogFile.objects.create(name=name, path=path)
 
+    def get_lines(self, file_id, **params):
+        url = reverse('logtailer_get_log_lines', args=[file_id])
+        response = self.client.get(url, params)
+        self.assertEqual(response.status_code, 200)
+        return response, json.loads(response.content)
+
 
 class ReadLogsViewTest(LogtailerViewTestCase):
     def test_renders_log_reader_template(self):
@@ -58,12 +64,6 @@ class ReadLogsViewTest(LogtailerViewTestCase):
 
 
 class GetLogLinesViewTest(LogtailerViewTestCase):
-    def get_lines(self, file_id, **params):
-        url = reverse('logtailer_get_log_lines', args=[file_id])
-        response = self.client.get(url, params)
-        self.assertEqual(response.status_code, 200)
-        return response, json.loads(response.content)
-
     def test_unknown_logfile_id_returns_error(self):
         response, payload = self.get_lines(9999)
         self.assertEqual(payload, [_('error_logfile_notexist')])
@@ -112,6 +112,70 @@ class GetLogLinesViewTest(LogtailerViewTestCase):
         self.assertEqual(
             self.client.session['file_position_%s' % log_file.pk],
             os.path.getsize(path))
+
+
+class LogLineFilterTest(LogtailerViewTestCase):
+    """Server-side regex filtering via the ?filter= parameter."""
+
+    def test_history_returns_only_matching_lines(self):
+        path, log_file = self.make_log_file(
+            'ERROR one\nINFO two\nERROR three\n')
+        response, payload = self.get_lines(
+            log_file.pk, history=10, filter='ERROR')
+        self.assertEqual(payload, ['ERROR one<br/>', 'ERROR three<br/>'])
+
+    def test_tail_returns_only_matching_new_lines(self):
+        path, log_file = self.make_log_file('old\n')
+        self.get_lines(log_file.pk)  # record current EOF position
+        with open(path, 'a') as f:
+            f.write('ERROR boom\nINFO fine\n')
+        response, payload = self.get_lines(log_file.pk, filter='ERROR')
+        self.assertEqual(payload, ['ERROR boom<br/>'])
+
+    def test_inline_flags_are_supported(self):
+        path, log_file = self.make_log_file('ERROR one\ninfo two\n')
+        response, payload = self.get_lines(
+            log_file.pk, history=10, filter='(?i)error')
+        self.assertEqual(payload, ['ERROR one<br/>'])
+
+    def test_invalid_regex_falls_back_to_substring(self):
+        path, log_file = self.make_log_file(
+            'has [unclosed bracket\nother line\n')
+        response, payload = self.get_lines(
+            log_file.pk, history=10, filter='[unclosed')
+        self.assertEqual(payload, ['has [unclosed bracket<br/>'])
+
+    def test_filter_matches_raw_line_not_escaped_output(self):
+        # Pattern contains '<', which only exists in the raw line;
+        # the returned payload is escaped nonetheless.
+        path, log_file = self.make_log_file(
+            '<script>alert("x")</script>\nplain\n')
+        response, payload = self.get_lines(
+            log_file.pk, history=10, filter='<script>')
+        self.assertEqual(
+            payload,
+            ['&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;<br/>'])
+
+
+class EscapingTest(LogtailerViewTestCase):
+    """Log content must never reach the client as active HTML (XSS)."""
+
+    def test_history_lines_are_html_escaped(self):
+        path, log_file = self.make_log_file(
+            '<img src=x onerror=alert(1)> & "quotes"\n')
+        response, payload = self.get_lines(log_file.pk, history=5)
+        self.assertEqual(
+            payload,
+            ['&lt;img src=x onerror=alert(1)&gt; &amp; '
+             '&quot;quotes&quot;<br/>'])
+
+    def test_tail_lines_are_html_escaped(self):
+        path, log_file = self.make_log_file('start\n')
+        self.get_lines(log_file.pk)
+        with open(path, 'a') as f:
+            f.write('<b>bold</b>\n')
+        response, payload = self.get_lines(log_file.pk)
+        self.assertEqual(payload, ['&lt;b&gt;bold&lt;/b&gt;<br/>'])
 
 
 class SaveToClipboardViewTest(LogtailerViewTestCase):
