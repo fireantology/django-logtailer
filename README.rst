@@ -11,6 +11,11 @@ It allows you to filter on logs with regex and offer also a log clipboard for sa
 
 Demos
 ========
+
+.. image:: docs/log-reader.png
+   :alt: LogTailer log reader in the Django admin
+   :width: 800
+
 - Demo `Video`_
 
 .. _`Video`: http://www.vimeo.com/28891014
