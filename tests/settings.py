@@ -59,4 +59,6 @@ USE_TZ = True
 
 LANGUAGE_CODE = 'en-us'
 
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+# Mirror what modern host projects use; logtailer pins its own
+# default_auto_field in apps.py, which must override this.
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
