@@ -71,6 +71,13 @@ LogTailer.printLines = function(result){
 	LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
 }
 
+LogTailer.setFilterControlsDisabled = function (disabled){
+	// The filter is applied server-side on each poll, so it is locked
+	// while reading; a visible hint explains why.
+	django.jQuery('#filter-select, #filter, #apply-filter').prop('disabled', disabled);
+	django.jQuery('#filter-locked-hint').toggleClass('hide', !disabled);
+}
+
 LogTailer.startReading = function (){
     if (LogTailer.first_read) {
         var lines = django.jQuery('#history_lines').val();
@@ -86,12 +93,14 @@ LogTailer.startReading = function (){
     } else {
         LogTailer.timeout_id = window.setTimeout("LogTailer.getLines("+LogTailer.file_id+")", LogTailer.timeout);
     }
+	LogTailer.setFilterControlsDisabled(true);
 	django.jQuery("#start-button").hide();
 	django.jQuery("#stop-button").show();
 }
 
 LogTailer.stopReading = function (){
 	window.clearTimeout(LogTailer.timeout_id);
+	LogTailer.setFilterControlsDisabled(false);
 	django.jQuery("#stop-button").hide();
 	django.jQuery("#start-button").show();
 }

@@ -133,6 +133,9 @@ msgstr "File non trovato"
 msgid "error_path_not_allowed"
 msgstr "L'accesso a questo percorso non è consentito"
 
+msgid "filters_locked_while_reading"
+msgstr "I filtri sono bloccati durante la lettura. Interrompi la lettura per modificarli."
+
 #: logtailer/views.py:81
 msgid "loglines_saved"
 msgstr "Linee del log salvate"

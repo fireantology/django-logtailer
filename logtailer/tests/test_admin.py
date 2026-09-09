@@ -35,6 +35,8 @@ class ChangeFormTest(LogFileAdminTestCase):
         self.assertContains(
             response,
             reverse('admin:logtailer_logfile_download', args=[log_file.pk]))
+        # Hint shown while filters are locked during reading (JS toggles it).
+        self.assertContains(response, 'id="filter-locked-hint"')
 
     def test_add_page_has_no_log_reader(self):
         response = self.client.get(reverse('admin:logtailer_logfile_add'))

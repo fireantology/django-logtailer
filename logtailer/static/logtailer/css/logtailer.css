@@ -80,6 +80,10 @@
     display: none;
 }
 
+#logfile_form #filter-locked-hint {
+    margin-left: 10px;
+}
+
 h1 {
     text-align: center;
 }
