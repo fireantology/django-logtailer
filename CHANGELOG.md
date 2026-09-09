@@ -11,6 +11,8 @@ All enhancements and patches to Django Logtailer will be documented in this file
 - Added test suite 
 - Log files with bytes that are not valid UTF-8 no longer crash reading or download (undecodable bytes are replaced with U+FFFD)
 - Renamed view function `save_to_clipoard` to `save_to_clipboard` (URL name `logtailer_save_to_clipboard` unchanged)
+- Log file records can be added and deleted but no longer edited; the admin detail page is a read-only log viewer. To change a path, add a new record and delete the old one
+- Filter fields are locked while log reading is active (the filter is applied server-side per poll)
 
 ## [1.3]
 ### Changed

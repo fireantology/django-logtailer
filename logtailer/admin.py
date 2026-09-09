@@ -25,6 +25,12 @@ class LogFileAdmin(admin.ModelAdmin):
     form = LogFileAdminForm
     list_display = ('name', 'path')
 
+    def has_change_permission(self, request, obj=None):
+        # LogFile records can be added and deleted but not edited: the
+        # detail page is a read-only log viewer. Replace a log file by
+        # adding a new record and deleting the old one.
+        return False
+
     class Media:
         css = {
             'all': ('logtailer/css/logtailer.css',)

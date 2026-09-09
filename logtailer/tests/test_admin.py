@@ -43,6 +43,42 @@ class ChangeFormTest(LogFileAdminTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'id="log-window"')
 
+    def test_change_page_is_read_only(self):
+        path, log_file = self.make_log_file()
+        url = reverse('admin:logtailer_logfile_change', args=[log_file.pk])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # View mode: no save buttons, log reader still present.
+        self.assertNotContains(response, 'name="_save"')
+        self.assertContains(response, 'id="log-window"')
+
+    def test_change_post_is_rejected(self):
+        path, log_file = self.make_log_file(name='original')
+        url = reverse('admin:logtailer_logfile_change', args=[log_file.pk])
+        response = self.client.post(
+            url, {'name': 'hacked', 'path': log_file.path, '_save': 'Save'})
+        self.assertEqual(response.status_code, 403)
+        log_file.refresh_from_db()
+        self.assertEqual(log_file.name, 'original')
+
+    def test_add_still_works(self):
+        log_path = make_temp_log('hello\n')
+        self.addCleanup(os.remove, log_path)
+        response = self.client.post(
+            reverse('admin:logtailer_logfile_add'),
+            {'name': 'new log', 'path': log_path, '_save': 'Save'})
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            LogFile.objects.filter(name='new log', path=log_path).exists())
+
+    def test_delete_still_works(self):
+        path, log_file = self.make_log_file()
+        response = self.client.post(
+            reverse('admin:logtailer_logfile_delete', args=[log_file.pk]),
+            {'post': 'yes'})
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(LogFile.objects.filter(pk=log_file.pk).exists())
+
     def test_changelist_shows_name_and_path(self):
         path, log_file = self.make_log_file(name='my log file')
         response = self.client.get(
