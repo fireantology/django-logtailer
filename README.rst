@@ -27,6 +27,7 @@ Installation
 
 - Install the package with pip install django-logtailer
 - Add it to the INSTALLED_APPS in your SETTINGS
+- Set LOGTAILER_ALLOWED_ROOTS in your SETTINGS (see Settings below)
 - add to urls.py: url(r'^logs/', include('logtailer.urls')),
 - Run manage.py migrate for create the required tables
 - Run manage.py collectstatic
@@ -34,11 +35,10 @@ Installation
 Settings
 ========
 
-``LOGTAILER_ALLOWED_ROOTS`` (optional, strongly recommended): list of
-directories log files are allowed to live in. Paths are fully resolved
-(symlinks and ``..`` included) before checking, preventing path traversal
-(CWE-22). When the setting is not defined, any path readable by the Django
-process is allowed (legacy behaviour)::
+``LOGTAILER_ALLOWED_ROOTS`` (mandatory): list of directories log files are
+allowed to live in. Paths are fully resolved (symlinks and ``..`` included)
+before checking, preventing path traversal (CWE-22). If the setting is
+missing or empty, access to every log file is denied::
 
     LOGTAILER_ALLOWED_ROOTS = ['/var/log/myapp']
 

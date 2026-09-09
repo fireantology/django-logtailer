@@ -1,6 +1,10 @@
 """Minimal Django settings for running the logtailer test suite standalone."""
+import tempfile
 
 SECRET_KEY = 'logtailer-test-suite-secret-key'
+
+# Test log files are created with tempfile (see logtailer/tests/utils.py).
+LOGTAILER_ALLOWED_ROOTS = [tempfile.gettempdir()]
 
 DEBUG = True
 

@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 from django.test import TestCase
 from django.urls import reverse
@@ -59,8 +60,11 @@ class DownloadViewTest(LogFileAdminTestCase):
         self.assertIn(log_file.name, response['Content-Disposition'])
 
     def test_download_missing_file_redirects_with_error(self):
+        # Path is inside an allowed root but does not exist on disk.
         log_file = LogFile.objects.create(
-            name='ghost', path='/nonexistent/file.log')
+            name='ghost',
+            path=os.path.join(
+                tempfile.gettempdir(), 'logtailer-nonexistent.log'))
         url = reverse('admin:logtailer_logfile_download', args=[log_file.pk])
         response = self.client.get(url)
         self.assertRedirects(

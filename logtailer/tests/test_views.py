@@ -1,5 +1,6 @@
 import json
 import os
+import tempfile
 
 from django.test import TestCase
 from django.urls import reverse
@@ -68,8 +69,11 @@ class GetLogLinesViewTest(LogtailerViewTestCase):
         self.assertEqual(payload, [_('error_logfile_notexist')])
 
     def test_missing_file_on_disk_returns_error(self):
+        # Path is inside an allowed root but does not exist on disk.
         log_file = LogFile.objects.create(
-            name='ghost', path='/nonexistent/path/to/file.log')
+            name='ghost',
+            path=os.path.join(
+                tempfile.gettempdir(), 'logtailer-nonexistent.log'))
         response, payload = self.get_lines(log_file.pk)
         self.assertEqual(payload, [_('error_no_suchfile')])
 

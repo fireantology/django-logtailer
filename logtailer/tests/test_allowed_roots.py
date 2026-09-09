@@ -21,9 +21,13 @@ class IsPathAllowedTest(SimpleTestCase):
         self.root = os.path.realpath(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, self.root, ignore_errors=True)
 
-    def test_no_setting_allows_everything(self):
-        # Backwards compatible: nothing configured, nothing restricted.
-        self.assertTrue(is_path_allowed('/etc/passwd'))
+    @override_settings()
+    def test_no_setting_denies_everything(self):
+        # Secure by default: the setting is mandatory.
+        from django.conf import settings
+        del settings.LOGTAILER_ALLOWED_ROOTS
+        self.assertFalse(is_path_allowed('/etc/passwd'))
+        self.assertFalse(is_path_allowed(os.path.join(self.root, 'app.log')))
 
     def test_path_inside_root_is_allowed(self):
         with override_settings(LOGTAILER_ALLOWED_ROOTS=[self.root]):

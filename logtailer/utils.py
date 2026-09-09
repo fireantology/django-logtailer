@@ -4,14 +4,14 @@ from django.conf import settings
 
 
 def get_allowed_roots():
-    """Return the configured allowed root directories, or None if unset.
+    """Return the configured allowed root directories.
 
-    ``LOGTAILER_ALLOWED_ROOTS`` is a list of directories. When set, log
+    ``LOGTAILER_ALLOWED_ROOTS`` is a mandatory list of directories: log
     files can only be read from inside those directories (symlinks and
-    ``..`` components are resolved first). When not set, any path is
-    allowed (backwards compatible behaviour).
+    ``..`` components are resolved first). If the setting is missing or
+    empty, access to every path is denied (secure by default).
     """
-    return getattr(settings, 'LOGTAILER_ALLOWED_ROOTS', None)
+    return getattr(settings, 'LOGTAILER_ALLOWED_ROOTS', None) or []
 
 
 def is_path_allowed(path):
@@ -21,11 +21,8 @@ def is_path_allowed(path):
     path traversal (``..``) and symlinks pointing outside an allowed root
     are rejected. See CWE-22.
     """
-    roots = get_allowed_roots()
-    if roots is None:
-        return True
     real_path = os.path.realpath(path)
-    for root in roots:
+    for root in get_allowed_roots():
         real_root = os.path.realpath(str(root))
         try:
             if os.path.commonpath([real_path, real_root]) == real_root:
