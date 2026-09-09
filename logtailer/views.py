@@ -1,7 +1,6 @@
 import os
 import json
 from django.http import HttpResponse
-from django.template import RequestContext
 from django.shortcuts import render
 from logtailer.models import LogsClipboard, LogFile
 from django.utils.translation import gettext as _
@@ -11,9 +10,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 @staff_member_required
 def read_logs(request):
-    context = {}
-    return render(request, 'logtailer/log_reader.html',
-                  context, RequestContext(request, {}),)
+    return render(request, 'logtailer/log_reader.html', {})
 
 
 def get_history(f, lines=0):

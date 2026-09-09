@@ -30,3 +30,13 @@ Installation
 - add to urls.py: url(r'^logs/', include('logtailer.urls')),
 - Run manage.py migrate for create the required tables
 - Run manage.py collectstatic
+
+Running tests
+=============
+
+From the repository root::
+
+    python runtests.py
+
+The suite uses a minimal standalone settings module (``tests/settings.py``)
+with an in-memory SQLite database, so no extra setup is needed.
