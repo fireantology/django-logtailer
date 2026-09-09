@@ -80,7 +80,7 @@ def get_log_lines(request, file_id):
         return HttpResponse(json.dumps([_('error_path_not_allowed')]),
                             content_type='application/json')
     try:
-        file = open(file_record.path, 'r')
+        file = open(file_record.path, 'r', errors='replace')
     except FileNotFoundError:
         return HttpResponse(json.dumps([_('error_no_suchfile')]),)
 
@@ -99,7 +99,7 @@ def get_log_lines(request, file_id):
 
 
 @staff_member_required
-def save_to_clipoard(request):
+def save_to_clipboard(request):
     LogsClipboard(name=request.POST['name'],
                   notes=request.POST['notes'],
                   logs=request.POST['logs'],

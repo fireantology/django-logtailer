@@ -9,6 +9,8 @@ All enhancements and patches to Django Logtailer will be documented in this file
 - Log lines are HTML-escaped server-side before being sent to the browser (fixes stored XSS in the log window)
 - Filtering happens server-side: only matching lines are sent to the client; the `eval()`-based client-side filter was removed
 - Added test suite 
+- Log files with bytes that are not valid UTF-8 no longer crash reading or download (undecodable bytes are replaced with U+FFFD)
+- Renamed view function `save_to_clipoard` to `save_to_clipboard` (URL name `logtailer_save_to_clipboard` unchanged)
 
 ## [1.3]
 ### Changed

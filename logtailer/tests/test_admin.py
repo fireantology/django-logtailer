@@ -59,6 +59,16 @@ class DownloadViewTest(LogFileAdminTestCase):
         self.assertIn('attachment', response['Content-Disposition'])
         self.assertIn(log_file.name, response['Content-Disposition'])
 
+    def test_download_replaces_undecodable_bytes(self):
+        path, log_file = self.make_log_file()
+        with open(path, 'wb') as f:
+            f.write(b'valid\nbad \xff byte\n')
+        url = reverse('admin:logtailer_logfile_download', args=[log_file.pk])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.content.decode(), 'valid\nbad \ufffd byte\n')
+
     def test_download_missing_file_redirects_with_error(self):
         # Path is inside an allowed root but does not exist on disk.
         log_file = LogFile.objects.create(

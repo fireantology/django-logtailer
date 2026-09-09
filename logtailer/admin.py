@@ -45,7 +45,7 @@ class LogFileAdmin(admin.ModelAdmin):
             log_file = self.get_object(request, object_id)
             if not is_path_allowed(log_file.path):
                 raise PermissionError(_('error_path_not_allowed'))
-            with open(log_file.path, 'r') as f:
+            with open(log_file.path, 'r', errors='replace') as f:
                 buffer = f.read()
             response = HttpResponse(buffer, content_type='plain/text')
             response['Content-Disposition'] = 'attachment; filename=%s' % log_file.name

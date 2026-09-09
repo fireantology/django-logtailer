@@ -178,6 +178,30 @@ class EscapingTest(LogtailerViewTestCase):
         self.assertEqual(payload, ['&lt;b&gt;bold&lt;/b&gt;<br/>'])
 
 
+class InvalidUtf8Test(LogtailerViewTestCase):
+    """Log files with undecodable bytes must not crash reading."""
+
+    def make_binary_log_file(self):
+        path, log_file = self.make_log_file('')
+        with open(path, 'wb') as f:
+            f.write(b'valid line\nbad \xff\xfe bytes\n')
+        return path, log_file
+
+    def test_history_replaces_undecodable_bytes(self):
+        path, log_file = self.make_binary_log_file()
+        response, payload = self.get_lines(log_file.pk, history=10)
+        self.assertEqual(
+            payload, ['valid line<br/>', 'bad \ufffd\ufffd bytes<br/>'])
+
+    def test_tail_replaces_undecodable_bytes(self):
+        path, log_file = self.make_log_file('start\n')
+        self.get_lines(log_file.pk)  # record current EOF position
+        with open(path, 'ab') as f:
+            f.write(b'bad \xff\xfe bytes\n')
+        response, payload = self.get_lines(log_file.pk)
+        self.assertEqual(payload, ['bad \ufffd\ufffd bytes<br/>'])
+
+
 class SaveToClipboardViewTest(LogtailerViewTestCase):
     def test_post_creates_clipboard_entry(self):
         log_file = LogFile.objects.create(name='app', path='/tmp/app.log')
