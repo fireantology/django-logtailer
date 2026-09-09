@@ -10,6 +10,10 @@ django.jQuery('#auto-scroll').click(function() {
     LogTailer.changeAutoScroll();
 });	
 
+django.jQuery('#clear-logs').click(function() {
+    LogTailer.clearLogs();
+});
+
 django.jQuery('#filter-select').change(function() {
 	LogTailer.customFilter();
 });		

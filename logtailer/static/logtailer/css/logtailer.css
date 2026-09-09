@@ -7,14 +7,6 @@
     margin: 0px;
 }
 
-#logfile_form #start-button {
-    float: left;
-}
-
-#logfile_form #stop-button {
-    float: left;
-}
-
 @media (max-width: 767px){
 #logfile_form #apply-filter-row {
     width: 100%;

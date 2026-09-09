@@ -136,6 +136,9 @@ msgstr "L'accesso a questo percorso non è consentito"
 msgid "filters_locked_while_reading"
 msgstr "I filtri sono bloccati durante la lettura. Interrompi la lettura per modificarli."
 
+msgid "clear_logs"
+msgstr "Pulisci log"
+
 #: logtailer/views.py:81
 msgid "loglines_saved"
 msgstr "Linee del log salvate"

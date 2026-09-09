@@ -135,6 +135,9 @@ msgstr "Access to this file path is not allowed"
 msgid "filters_locked_while_reading"
 msgstr "Filters are locked while reading. Stop reading to change them."
 
+msgid "clear_logs"
+msgstr "Clear logs"
+
 #: logtailer/views.py:81
 msgid "loglines_saved"
 msgstr "Log lines saved"

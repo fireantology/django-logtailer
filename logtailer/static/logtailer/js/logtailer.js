@@ -117,6 +117,12 @@ LogTailer.changeAutoScroll = function(){
     }
 }
 
+LogTailer.clearLogs = function(){
+	// Safe while reading: polling simply appends new lines afterwards,
+	// the server-side file position is not affected.
+	django.jQuery("#log-window").html("");
+}
+
 LogTailer.customFilter = function(){
 	if(django.jQuery('#filter-select').val()=="custom"){
 	    django.jQuery('#filter').show();
